@@ -27,7 +27,7 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id}><Link to={"/anecdotes/"+anecdote.id}>{anecdote.cont}</Link></li>)}
+      {anecdotes.map(anecdote => <li key={anecdote.id}><Link to={"/anecdotes/"+anecdote.id}>{anecdote.contentValue}</Link></li>)}
     </ul>
   </div>
 )
@@ -79,10 +79,12 @@ const CreateNew = (props) => {
     history.push('/')
   }
 
+
+
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} >
         <div>
           content
           <input
@@ -101,8 +103,10 @@ const CreateNew = (props) => {
           {...info}
           />
         </div>
-        <button>Create</button>
+        <button >Create</button>
+
       </form>
+
     </div>
   )
 
@@ -121,16 +125,16 @@ const App = () => {
   const [notification, setNotification] = useState('')
   const [anecdotes, setAnecdotes] = useState([
     {
-      cont: 'If it hurts, do it more often',
-      aut: 'Jez Humble',
-      inf: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
+      contentValue: 'If it hurts, do it more often',
+      authorValue: 'Jez Humble',
+      infoValue: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
       votes: 0,
       id: '1'
     },
     {
-      cont: 'Premature optimization is the root of all evil',
-      aut: 'Donald Knuth',
-      inf: 'http://wiki.c2.com/?PrematureOptimization',
+      contentValue: 'Premature optimization is the root of all evil',
+      authorValue: 'Donald Knuth',
+      infoValue: 'http://wiki.c2.com/?PrematureOptimization',
       votes: 0,
       id: '2'
     }
