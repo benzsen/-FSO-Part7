@@ -8,6 +8,7 @@ import {
   useRouteMatch,
   useHistory
 } from "react-router-dom"
+import { useField } from "./hooks/index.js"
 
 const Menu = () => {
   const padding = {
@@ -26,7 +27,7 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id}><Link to={"/anecdotes/"+anecdote.id}>{anecdote.content}</Link></li>)}
+      {anecdotes.map(anecdote => <li key={anecdote.id}><Link to={"/anecdotes/"+anecdote.id}>{anecdote.cont}</Link></li>)}
     </ul>
   </div>
 )
@@ -54,18 +55,25 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
-
+  // const [content, setContent] = useState('')
+  // const [author, setAuthor] = useState('')
+  // const [info, setInfo] = useState('')
   const history = useHistory()
+
+  const content = useField("content")
+  const author = useField("author")
+  const info = useField("info")
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    const contentValue = content.value
+    const authorValue = author.value
+    const infoValue = info.value
+
     props.addNew({
-      content,
-      author,
-      info,
+      contentValue,
+      authorValue,
+      infoValue,
       votes: 0
     })
     history.push('/')
@@ -77,15 +85,21 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input
+          {...content}
+          />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input
+          {...author}
+          />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input
+          {...info}
+          />
         </div>
         <button>Create</button>
       </form>
@@ -104,30 +118,30 @@ const Anec = ({ anec }) => {
 }
 
 const App = () => {
-  const [notif, setNotif] = useState('')
+  const [notification, setNotification] = useState('')
   const [anecdotes, setAnecdotes] = useState([
     {
-      content: 'If it hurts, do it more often',
-      author: 'Jez Humble',
-      info: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
+      cont: 'If it hurts, do it more often',
+      aut: 'Jez Humble',
+      inf: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
       votes: 0,
       id: '1'
     },
     {
-      content: 'Premature optimization is the root of all evil',
-      author: 'Donald Knuth',
-      info: 'http://wiki.c2.com/?PrematureOptimization',
+      cont: 'Premature optimization is the root of all evil',
+      aut: 'Donald Knuth',
+      inf: 'http://wiki.c2.com/?PrematureOptimization',
       votes: 0,
       id: '2'
     }
   ])
 
-  const [notification, setNotification] = useState('')
-
   const addNew = (anecdote) => {
+    console.log("anec", anecdote);
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
-    setNotification(`Anecdote "${anecdote.content}" saved`)
+    console.log("anecs", anecdotes);
+    setNotification(`Anecdote "${anecdote.contentValue}" saved`)
 
     setTimeout(() => {
       setNotification("")
