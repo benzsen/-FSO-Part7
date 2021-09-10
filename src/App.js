@@ -27,7 +27,7 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id}><Link to={"/anecdotes/"+anecdote.id}>{anecdote.contentValue}</Link></li>)}
+      {anecdotes.map(anecdote => <li key={anecdote.id}><Link to={"/anecdotes/"+anecdote.id}>{anecdote.content}</Link></li>)}
     </ul>
   </div>
 )
@@ -71,15 +71,13 @@ const CreateNew = (props) => {
     const infoValue = info.value
 
     props.addNew({
-      contentValue,
-      authorValue,
-      infoValue,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0
     })
     history.push('/')
   }
-
-
 
   return (
     <div>
@@ -125,16 +123,16 @@ const App = () => {
   const [notification, setNotification] = useState('')
   const [anecdotes, setAnecdotes] = useState([
     {
-      contentValue: 'If it hurts, do it more often',
-      authorValue: 'Jez Humble',
-      infoValue: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
+      content: 'If it hurts, do it more often',
+      author: 'Jez Humble',
+      info: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
       votes: 0,
       id: '1'
     },
     {
-      contentValue: 'Premature optimization is the root of all evil',
-      authorValue: 'Donald Knuth',
-      infoValue: 'http://wiki.c2.com/?PrematureOptimization',
+      content: 'Premature optimization is the root of all evil',
+      author: 'Donald Knuth',
+      info: 'http://wiki.c2.com/?PrematureOptimization',
       votes: 0,
       id: '2'
     }
@@ -145,7 +143,7 @@ const App = () => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
     console.log("anecs", anecdotes);
-    setNotification(`Anecdote "${anecdote.contentValue}" saved`)
+    setNotification(`Anecdote "${anecdote.content}" saved`)
 
     setTimeout(() => {
       setNotification("")
