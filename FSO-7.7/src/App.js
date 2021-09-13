@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import useCountry from "./hooks/index.js"
 
 const useField = (type) => {
   const [value, setValue] = useState('')
@@ -13,33 +13,6 @@ const useField = (type) => {
     value,
     onChange
   }
-}
-
-const useCountry = async (name) => {
-  const [country, setCountry] = useState(null)
-
-  // const countrySearch = async (name) => {
-  //   const response = await axios.get("https://restcountries.eu/rest/v2/name/"+name+"?fullText=true")
-  //   return response.data
-  // }
-
-  //???
-  // const countrySearch = (name) => {
-  //   const request = axios.get("https://restcountries.eu/rest/v2/name/"+name+"?fullText=true")
-  //   return request
-  //     .then(response => response.data)
-  // }
-
-  //???
-  //useEffect(() => {setCountry(countrySearch(name))}, [name])
-
-  useEffect(() => {
-    axios.get("https://restcountries.eu/rest/v2/name/"+name+"?fullText=true")
-      .then(response=> setCountry(response.data))
-  }, [name])
-
-  console.log("country", country);
-  return country
 }
 
 const Country = ({ country }) => {
@@ -68,13 +41,12 @@ const Country = ({ country }) => {
 const App = () => {
   const nameInput = useField('text')
   const [name, setName] = useState('')
+  const country = useCountry(name)
 
-  const fetch = async (e) => {
+  const fetch = (e) => {
     e.preventDefault()
     setName(nameInput.value)
   }
-
-  const country = useCountry(name)
 
   return (
     <div>
