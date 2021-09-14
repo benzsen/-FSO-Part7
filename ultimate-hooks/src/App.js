@@ -20,18 +20,15 @@ const useResource = (baseUrl) => {
   const [resources, setResources] = useState([])
 
   useEffect(() => {
-    const getAll = async () => {
-      const response = await axios.get(baseUrl)
-      console.log("response", response.data);
-      setResources(response.data)
-      //return response.data
-    }
-  },[])
+      axios.get(baseUrl)
+        .then(response => setResources(response.data))
+  },[baseUrl])
 
-  const create = async (resource) => {
-    const response = await axios.post(baseUrl, resource)
-    return response.data
-  }
+  const create = (resource) => {
+    axios.post(baseUrl, resource)
+      .then(response =>
+        setResources(resources.concat(response.data))
+  )}
 
   const service = {
     create
